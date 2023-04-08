@@ -10,45 +10,34 @@ def connect_to_binance_future(api_key, api_secret):
 # Define the initial position size and stop loss percentage
 position_sizes = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 stop_loss_percentages = [0.03, 0.04, 0.05, 0.06, 0.07]
-
 # Define the leverage for the position
 leverage = 20
-
 # Define the achievement grid profit for setting a trailing stop order
 PNL_LIST = [0.07, 0.1, 0.15, 0.2, 0.25]
-
 # Define the number of consecutive stop losses before resetting the loss counter and position size
 n = 10
-
 # Define the initial loss counter
 loss_counter = 0
-
 # Define the initial position size
 position_size = sum(position_sizes)
-
 # Define the initial stop loss percentage
 stop_loss_percentage = stop_loss_percentages[0]
-
 # Define the initial trailing stop order price
 trailing_stop_order_price = None
-
 # Define the initial direction of the position
 position_direction = "BUY"
-
 # Define the initial entry price of the position
 entry_price = None
-
 # Define the initial profit of the position
 profit = None
-
 # Define the initial stop loss order id
 stop_loss_order_id = None
-
 # Define the initial trailing stop order id
 trailing_stop_order_id = None
 
+
+
 def place_trailing_stop_order(client, side, position_size, SYMBOL, entry_price, pnl, pnl_achieved, stop_loss):
-    """Place a trailing stop order with the given parameters"""
     stop_price = entry_price - (entry_price * stop_loss)
     tp_price = entry_price + ((entry_price * pnl) * pnl_achieved)
     if side == "BUY":
@@ -69,10 +58,8 @@ def place_trailing_stop_order(client, side, position_size, SYMBOL, entry_price, 
 def handle_position(client, position, current_price, SYMBOL, position_size, stop_loss_percentage, trailing_stop_order_price, loss_counter, position_direction, entry_price, profit, stop_loss_order_id, trailing_stop_order_id):
     """Handle a position with the given current price."""
 
-    # Calculate the current value of the position
     current_value = position['positionAmt'] * current_price
 
-    # Check if the position is profitable or not
     if current_value > position['entryPrice'] * position['positionAmt']:
         # Calculate the profit
         profit = current_value - position['entryPrice'] * position['positionAmt']
